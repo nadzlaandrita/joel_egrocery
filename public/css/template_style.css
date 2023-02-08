@@ -1,15 +1,15 @@
-.header-top {
+.bg-success {
 
-    background-color: #0bba77;
+    background-color: #0bba77!important;
+}
+
+.header-title a {
+
+    text-decoration: none;
+    color: black; 
 }
 
 .nav-link {
 
     color: black;
-}
-
-
-footer {
-
-    background-color: #0bba77;
 }

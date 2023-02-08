@@ -23,62 +23,49 @@
     <header>
 
         {{-- Judul --}}
-        <section class="header-top p-4 d-flex align-items-center justify-content-center">
+        <section class="bg-success p-4 d-flex align-items-center justify-content-center">
 
-            <div class="header-title">
-                <h1>Amazing E-Grocery</h1>
+            <div class="container">
+
+                <div class="row justify-content-center align-items-center">
+
+                    <div class="col-8 header-title text-end">
+                        <h1>
+
+                            @if (Auth::check())
+                                <a href="{{ route('item_home_page') }}">Amazing E-Grocery</a>
+                            @else
+                                <a href="{{ route('guest_home') }}">Amazing E-Grocery</a>
+                            @endif
+
+                        </h1>
+                    </div>
+
+                    <div class="col-4 header-links">
+
+                        @yield('header-links')
+                    </div>
+                </div>
             </div>
-
-
-
         </section>
 
         {{-- Navigasi --}}
-        <nav class="navbar navbar-expand-lg bg-warning">
-            <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
-                    <ul class="navbar-nav mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link fw-bold" href="#">Home</a>
-                        </li>
-                    </ul>
-
-                    <ul class="navbar-nav mx-5">
-                        <li class="nav-item">
-                            <a class="nav-link fw-bold" href="#">Cart</a>
-                        </li>
-                    </ul>
-
-                    <ul class="navbar-nav me-5">
-                        <li class="nav-item">
-                            <a class="nav-link fw-bold" href="#">Profile</a>
-                        </li>
-                    </ul>
-
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link fw-bold" href="#">Account Maintenance</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        @if (Auth::check())
+            @include('navigation.nav')
+        @endif
 
     </header>
 
-    <main>
+    <main class="my-5">
 
         @yield('content')
     </main>
 
-    <footer class="text-center py-3">
+    <footer class="text-center py-3 bg-success">
 
-        <p class="mb-0">&copy; Amazing E-Grocery 2023</p>
+        <div>
+            <p class="mb-0">&copy; Amazing E-Grocery 2023</p>
+        </div>
     </footer>
 </body>
 

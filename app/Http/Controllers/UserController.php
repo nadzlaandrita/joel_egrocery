@@ -19,18 +19,20 @@ class UserController extends Controller
         return view("index_guest");
     }
 
-    public function loadLoginPage(){
-        
+    public function loadLoginPage()
+    {
+
         return view('login');
     }
 
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         App::setlocale(session('lang'));
-        
+
         $email = $request->email;
         $password = $request->password;
 
-        if($request->remember){
+        if ($request->remember) {
             Cookie::queue('email_cookie', $email);
             Cookie::queue('password_cookie', $password, 2);
         }
@@ -39,23 +41,23 @@ class UserController extends Controller
             'email' => $email,
             'password' => $password
         ];
-        
-        if (Auth::attempt($credentials, true)){
 
-            $request->session()->put("mySession", $credentials); 
-            
-            if(Auth::user()->role->role_name == 'admin'){
+        if (Auth::attempt($credentials, true)) {
+
+            $request->session()->put("loginSession", $credentials);
+
+            if (Auth::user()->role->role_name == 'admin') {
                 return redirect('/home');
-            }else{
+            } else {
                 return redirect('/home');
             }
-            
         }
 
         return redirect('/login');
     }
 
-    public function loadRegisterPage(){
+    public function loadRegisterPage()
+    {
         App::setlocale(session('lang'));
 
         $gender_data = Gender::all();
@@ -68,13 +70,9 @@ class UserController extends Controller
         ]);
     }
 
-    public function register(Request $request){
+    public function register(Request $request)
+    {
         App::setlocale(session('lang'));
-        
-        var_dump($request->all());
-
-        $email = $request->email;
-        $password = $request->password;
 
         $this->validate($request, [
             'first_name' => 'required|min:3|max:25',
@@ -90,9 +88,10 @@ class UserController extends Controller
         $role_data = Role::where('role_name', '=', $request->role)->first();
         $gender_data = Gender::where('gender_desc', '=', $request->gender)->first();
 
-        $image_name = time().'.'.$request->picture->getClientOriginalExtension();
+        $fileName = str_replace("", "_", $request->first_name);
+        $fullFileName = $fileName . '.' . $request->picture->getClientOriginalExtension();
 
-        $path = $request->picture->move('images/', $image_name);
+        $path = $request->picture->move('images', $fullFileName);
 
         User::insert([
 
@@ -100,17 +99,17 @@ class UserController extends Controller
             'gender_id' => $gender_data->id,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'email' => $email,
+            'email' => $request->email,
             'display_picture_link' => $path,
-            'password' => bcrypt($password),
-            'created_at' =>date("Y-m-d H:i:s"),
-            'updated_at' =>date("Y-m-d H:i:s")
-        ]); 
-           
+            'password' => bcrypt($request->password),
+            'created_at' => date("Y-m-d H:i:s"),
+            'updated_at' => date("Y-m-d H:i:s")
+        ]);
+
         $credentials = [
 
-            "email" => $email,
-            "password" => $password
+            "email" => $request->email,
+            "password" => $request->password
         ];
 
         return redirect("/login");
