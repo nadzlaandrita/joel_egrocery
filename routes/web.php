@@ -16,9 +16,16 @@ use Illuminate\Support\Facades\Route;
 
 
 
+
 Route::middleware(['GuestOnly'])->group(function(){
     # isi buat yang cuma diakses guest
     Route::get('/', [UserController::class, "index"]);
+
+    Route::get('/login', [UserController::class, 'loadLoginPage']);
+    Route::post('/login', [UserController::class, 'login']);
+
+    Route::get('/register', [UserController::class, 'loadRegisterPage']);
+    Route::post('/register', [UserController::class, 'register']);
 });
 
 Route::middleware(['auth'])->group(function(){
