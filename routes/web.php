@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,12 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Route::middleware(['GuestOnly'])->group(function(){
     # isi buat yang cuma diakses guest
+    Route::get('/', [UserController::class, "index"]);
 });
 
 Route::middleware(['auth'])->group(function(){
