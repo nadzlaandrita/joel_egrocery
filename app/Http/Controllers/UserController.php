@@ -52,7 +52,7 @@ class UserController extends Controller
             
         }
 
-        return "failed";
+        return redirect('/login');
     }
 
     public function loadRegisterPage(){
