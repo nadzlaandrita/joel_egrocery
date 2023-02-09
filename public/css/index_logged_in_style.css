@@ -1,0 +1,17 @@
+.item-card {
+
+    width: fit-content;
+    text-align: center;
+}
+
+.main-content .row {
+
+    gap: 5rem;
+}
+
+.item-card img {
+
+    width: 8rem;
+    height: 8rem;
+}
+

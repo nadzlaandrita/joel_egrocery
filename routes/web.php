@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,15 @@ Route::middleware(['auth'])->group(function () {
     # isi yang bisa diakses admin & user (home, detail, profile, logout)
     Route::get("/home", [ItemController::class, "loadItemPage"])
         ->name("item_home_page");
+
+    Route::get("/item/{itemId}", [ItemController::class, "viewItemById"])
+        ->name("item_detail_page");
+
+    Route::get("/cart", [OrderController::class, "loadCartPage"])
+        ->name("cart_page");
+
+    Route::post("/add-to-cart/{itemId}", [OrderController::class, "addItemToCart"])
+        ->name("add_item_to_cart");
 
     Route::middleware(['AdminOnly'])->group(function () {
         # isi buat yang bisa diakses admin aja (account maintenance)

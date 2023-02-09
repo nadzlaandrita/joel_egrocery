@@ -61,12 +61,12 @@
         @yield('content')
     </main>
 
-    <footer class="text-center py-3 bg-success">
+    {{-- <footer class="text-center py-3 bg-success">
 
         <div>
             <p class="mb-0">&copy; Amazing E-Grocery 2023</p>
         </div>
-    </footer>
+    </footer> --}}
 </body>
 
 </html>

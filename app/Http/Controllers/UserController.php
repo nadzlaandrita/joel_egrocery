@@ -46,11 +46,13 @@ class UserController extends Controller
 
             $request->session()->put("loginSession", $credentials);
 
-            if (Auth::user()->role->role_name == 'admin') {
-                return redirect('/home');
-            } else {
-                return redirect('/home');
-            }
+            return redirect(route("item_home_page"));
+
+            // if (Auth::user()->role->role_name == 'admin') {
+            //     return redirect('/home');
+            // } else {
+            //     return redirect('/home');
+            // }
         }
 
         return redirect('/login');
