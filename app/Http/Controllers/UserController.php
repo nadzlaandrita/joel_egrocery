@@ -20,6 +20,14 @@ class UserController extends Controller
         return view("index_guest");
     }
 
+    public function logOut()
+    {
+
+        Auth::logout();
+
+        return redirect(route("guest_home"));
+    }
+
     public function loadLoginPage()
     {
 
@@ -81,7 +89,7 @@ class UserController extends Controller
         App::setlocale(session('lang'));
 
         $this->validate($request, [
-            'first_name' => 'required|max:25}regex:/[a-zA-Z\s]+$/',
+            'first_name' => 'required|max:25|regex:/[a-zA-Z\s]+$/',
             'last_name' => 'required|max:25',
             'email' => 'required|email|unique:users',
             'role' => 'required',
@@ -121,7 +129,8 @@ class UserController extends Controller
         return redirect("/login");
     }
 
-    public function loadProfile(){
+    public function loadProfile()
+    {
 
         $user_checked = Auth::user()->id;
         $user_data = User::where('id', '=', $user_checked)->get();
@@ -131,15 +140,16 @@ class UserController extends Controller
             'user_data' => $user_data,
             'gender_data' => $gender_data
         ]);
-
     }
 
-    public function loadSavedPage(){
-        
+    public function loadSavedPage()
+    {
+
         return view('saved');
     }
 
-    public function editProfile(Request $request){
+    public function editProfile(Request $request)
+    {
 
         $user_checked = Auth::user()->id;
         $user_data = User::find($user_checked);
@@ -175,6 +185,5 @@ class UserController extends Controller
         ]);
 
         return redirect('/saved');
-
     }
 }

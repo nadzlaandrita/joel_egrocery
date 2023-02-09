@@ -43,7 +43,7 @@
 
                     <div class="col-4 header-links">
 
-                        @yield('header-links')
+                        @include('navigation.header-links')
                     </div>
                 </div>
             </div>

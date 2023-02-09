@@ -29,7 +29,7 @@ class OrderController extends Controller
             ->with("totalPrice", $totalPrice);
     }
 
-    public function addItemToCart(Request $request, $itemId)
+    public function addItemToCart($itemId)
     {
 
         $item_data = Item::findOrFail($itemId);
@@ -51,5 +51,37 @@ class OrderController extends Controller
         }
 
         return redirect(route("cart_page"));
+    }
+
+    public function removeItemFromCart($itemId)
+    {
+
+        $order_data = Order::where("item_id", "=", $itemId);
+        $order_data->delete();
+
+        return redirect(route("cart_page"));
+    }
+
+
+    public function checkoutCart()
+    {
+
+        $order_data = Order::where("user_id", "=", Auth::user()->id);
+
+        if ($order_data != null) {
+
+            $order_data->delete();
+
+            return redirect(route("checkout_success"));
+        } else {
+
+            return redirect(route("cart_page"));
+        }
+    }
+
+    public function loadSuccessPage()
+    {
+
+        return view("success");
     }
 }

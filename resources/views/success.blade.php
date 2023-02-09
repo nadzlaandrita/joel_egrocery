@@ -14,7 +14,9 @@
             class="circle d-flex justify-content-center align-items-center border border-5 border-warning rounded-circle text-center">
 
             <div>
-                <p class="title fw-bold">Saved!</p>
+                <p class="title fw-bold">Success</p>
+
+                <p>We will contact you 1x24 hours.</p>
 
                 <p>
                     <a href="{{ route('item_home_page') }}">Click Here to 'Home'</a>

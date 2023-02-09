@@ -19,7 +19,7 @@
 
             <ul class="navbar-nav me-5">
                 <li class="nav-item">
-                    <a class="nav-link fw-bold" href="#">Profile</a>
+                    <a class="nav-link fw-bold" href="{{ route('profile') }}">Profile</a>
                 </li>
             </ul>
 
