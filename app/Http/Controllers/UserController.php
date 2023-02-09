@@ -20,6 +20,14 @@ class UserController extends Controller
         return view("index_guest");
     }
 
+    public function logOut()
+    {
+
+        Auth::logout();
+
+        return redirect(route("guest_home"));
+    }
+
     public function loadLoginPage()
     {
 
@@ -48,11 +56,13 @@ class UserController extends Controller
 
             $request->session()->put("loginSession", $credentials);
 
-            if (Auth::user()->role->role_name == 'admin') {
-                return redirect('/home');
-            } else {
-                return redirect('/home');
-            }
+            return redirect(route("item_home_page"));
+
+            // if (Auth::user()->role->role_name == 'admin') {
+            //     return redirect('/home');
+            // } else {
+            //     return redirect('/home');
+            // }
         }
 
         return redirect('/login');
@@ -119,7 +129,8 @@ class UserController extends Controller
         return redirect("/login");
     }
 
-    public function loadProfile(){
+    public function loadProfile()
+    {
 
         $user_checked = Auth::user()->id;
         $user_data = User::where('id', '=', $user_checked)->get();
@@ -129,15 +140,16 @@ class UserController extends Controller
             'user_data' => $user_data,
             'gender_data' => $gender_data
         ]);
-
     }
 
-    public function loadSavedPage(){
-        
+    public function loadSavedPage()
+    {
+
         return view('saved');
     }
 
-    public function editProfile(Request $request){
+    public function editProfile(Request $request)
+    {
 
         $user_checked = Auth::user()->id;
         $user_data = User::find($user_checked);
@@ -173,7 +185,6 @@ class UserController extends Controller
         ]);
 
         return redirect('/saved');
-
     }
 
     public function loadMaintenance(){

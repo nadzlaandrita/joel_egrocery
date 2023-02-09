@@ -1,23 +1,9 @@
 @extends('template.template')
 
-@section('title', 'profile')
+@section('title', 'Profile')
 
 @section('extra-css')
     <link rel="stylesheet" href="{{ asset('css/index_guest_style.css') }}">
-@endsection
-
-@section('header-links')
-
-    <div class="text-center">
-
-        @if (Auth::check())
-            <a href="" class="btn btn-warning fw-bold">Logout</a>
-        @else
-            <a href="{{ route('guest_register') }}" class="btn btn-warning fw-bold">Register</a>
-            <a href="{{ route('guest_login') }}" class="btn btn-warning fw-bold mx-3">Login</a>
-        @endif
-    </div>
-
 @endsection
 
 @section('content')
@@ -30,7 +16,7 @@
             <div class="col-md-4">
                 <img src="{{$data->display_picture_link}}" class="img-fluid rounded-start" alt="{{$data->first_name}}">
             </div>
-    
+
             <div class="col-md-8">
 
                 <form class="row g-3 mx-2 mt-2" method="POST" action="{{ url('/edit-profile') }}"enctype="multipart/form-data">
@@ -68,7 +54,7 @@
                                 {{ $message }}
                             </div>
                         @enderror
-                        
+
                     </div>
 
                     <div class="col-md-6">

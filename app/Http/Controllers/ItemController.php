@@ -16,4 +16,14 @@ class ItemController extends Controller
         return view("index_logged_in")
             ->with("item_data", $item_data);
     }
+
+
+    public function viewItemById($itemId)
+    {
+
+        $item_data = Item::findOrFail($itemId);
+
+        return view("item_detail")
+            ->with("item_data", $item_data);
+    }
 }

@@ -1,0 +1,11 @@
+.main-content .cart-name {
+
+    font-size: 1.5rem;
+    text-decoration: underline;
+}
+
+.item-box img {
+
+    width: 10rem;
+    height: 10rem;
+}
