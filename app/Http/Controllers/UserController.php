@@ -132,6 +132,11 @@ class UserController extends Controller
 
     }
 
+    public function loadSavedPage(){
+        
+        return view('saved');
+    }
+
     public function editProfile(Request $request){
 
         $user_checked = Auth::user()->id;
@@ -158,13 +163,6 @@ class UserController extends Controller
 
             $new_path = $request->picture->move('images', $image);
         }
-
-        // $user_data->first_name = $request->first_name;
-        // $user_data->last_name = $request->last_name;
-        // $user_data->email = $request->email;
-        // $user_data->display_picture_link = $new_path;
-        // $user_data->password = bcrypt($request->password);
-        // $user_data->save();
 
         User::where('id', '=', $user_checked)->update([
             "first_name" => $request->first_name,

@@ -39,6 +39,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get("/profile", [UserController::class, "loadProfile"])
         ->name("profile");
     Route::patch('/edit-profile', [UserController::class, "editProfile"]);
+    Route::get("/saved", [UserController::class, "loadSavedPage"])
+        ->name("saved");
 
     Route::middleware(['AdminOnly'])->group(function () {
         # isi buat yang bisa diakses admin aja (account maintenance)
