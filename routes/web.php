@@ -17,17 +17,16 @@ use Illuminate\Support\Facades\Route;
 
 
 
-
 Route::middleware(['GuestOnly'])->group(function () {
     # isi buat yang cuma diakses guest
     Route::get('/', [UserController::class, "index"])
-        ->name("guest_home");
-
+    ->name("guest_home");
+    
     Route::get('/login', [UserController::class, 'loadLoginPage'])
         ->name("guest_login");
-    Route::post('/login', [UserController::class, 'login']);
+        Route::post('/login', [UserController::class, 'login']);
 
-    Route::get('/register', [UserController::class, 'loadRegisterPage'])
+        Route::get('/register', [UserController::class, 'loadRegisterPage'])
         ->name("guest_register");
     Route::post('/register', [UserController::class, 'register']);
 });
@@ -35,18 +34,23 @@ Route::middleware(['GuestOnly'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     # isi yang bisa diakses admin & user (home, detail, profile, logout)
     Route::get("/home", [ItemController::class, "loadItemPage"])
-        ->name("item_home_page");
+    ->name("item_home_page");
     Route::get("/profile", [UserController::class, "loadProfile"])
-        ->name("profile");
+    ->name("profile");
     Route::patch('/edit-profile', [UserController::class, "editProfile"]);
     Route::get("/saved", [UserController::class, "loadSavedPage"])
-        ->name("saved");
-
+    ->name("saved");
+    
     Route::middleware(['AdminOnly'])->group(function () {
         # isi buat yang bisa diakses admin aja (account maintenance)
+        Route::get('/maintenance', [UserController::class, 'loadMaintenance']);
+        Route::delete('/delete/{id}', [UserController::class, 'deleteAccount']);
 
+        Route::get('/update-role/{id}', [UserController::class, 'loadUpdateRole']);
+        Route::patch('/update-role/{id}', [UserController::class, 'updateRole']);
+        
     });
-
+    
     Route::middleware(['UserOnly'])->group(function () {
         # isi buat yang bisa diakses sama user doang (cart, halaman success)
 

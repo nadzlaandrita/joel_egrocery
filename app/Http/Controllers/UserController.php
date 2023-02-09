@@ -79,7 +79,7 @@ class UserController extends Controller
         App::setlocale(session('lang'));
 
         $this->validate($request, [
-            'first_name' => 'required|max:25}regex:/[a-zA-Z\s]+$/',
+            'first_name' => 'required|max:25|regex:/[a-zA-Z\s]+$/',
             'last_name' => 'required|max:25',
             'email' => 'required|email|unique:users',
             'role' => 'required',
@@ -174,5 +174,41 @@ class UserController extends Controller
 
         return redirect('/saved');
 
+    }
+
+    public function loadMaintenance(){
+
+        $user_data = User::all();
+
+        return view('account_maintenance', [
+            'user_data' => $user_data
+        ]);
+    }
+
+    public function deleteAccount($id){
+        $user_id = User::where('id', '=', $id);
+        $user_id->delete();
+
+        return redirect('/maintenance');
+    }
+
+    public function loadUpdateRole($id){
+
+        $role_data = Role::all();
+        $user_data = User::where('id', '=', $id)->first();
+
+        return view('update_role', [
+            'role_data' => $role_data,
+            'user_data' => $user_data
+        ]);
+    }
+
+    public function updateRole(Request $request, $id){
+
+        $user_id = User::find($id);
+        $user_id->role_id = $request->role_id;
+        $user_id->save();
+
+        return redirect('/maintenance');
     }
 }
