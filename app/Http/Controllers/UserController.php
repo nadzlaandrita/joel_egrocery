@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -27,6 +28,7 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
+
         App::setlocale(session('lang'));
 
         $email = $request->email;
@@ -58,6 +60,7 @@ class UserController extends Controller
 
     public function loadRegisterPage()
     {
+
         App::setlocale(session('lang'));
 
         $gender_data = Gender::all();
@@ -72,11 +75,12 @@ class UserController extends Controller
 
     public function register(Request $request)
     {
+
         App::setlocale(session('lang'));
 
         $this->validate($request, [
-            'first_name' => 'required|min:3|max:25',
-            'last_name' => 'required|min:3|max:25',
+            'first_name' => 'required|max:25}regex:/[a-zA-Z\s]+$/',
+            'last_name' => 'required|max:25',
             'email' => 'required|email|unique:users',
             'role' => 'required',
             'gender' => 'required',
@@ -113,5 +117,64 @@ class UserController extends Controller
         ];
 
         return redirect("/login");
+    }
+
+    public function loadProfile(){
+
+        $user_checked = Auth::user()->id;
+        $user_data = User::where('id', '=', $user_checked)->get();
+        $gender_data = Gender::all();
+
+        return view('profile', [
+            'user_data' => $user_data,
+            'gender_data' => $gender_data
+        ]);
+
+    }
+
+    public function editProfile(Request $request){
+
+        $user_checked = Auth::user()->id;
+        $user_data = User::find($user_checked);
+
+        $request->validate([
+            'first_name' => 'required|max:25|regex:/[a-zA-Z\s]+$/',
+            'last_name' => 'required|max:25|regex:/[a-zA-Z\s]+$/',
+            'email' => 'required|email|unique:users',
+            'gender' => 'required',
+            'picture' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'password' => 'required|min:8',
+            'confirm_password' => 'required|min:8|same:password'
+        ]);
+
+        if ($request->picture != '') {
+
+            if ($user_data->display_picture_link != ''  && $user_data->display_picture_link != null) {
+                $prev_file = $user_data->display_picture_link;
+                unlink($prev_file);
+            }
+
+            $image = time() . '.' . $request->picture->getClientOriginalExtension();
+
+            $new_path = $request->picture->move('images', $image);
+        }
+
+        // $user_data->first_name = $request->first_name;
+        // $user_data->last_name = $request->last_name;
+        // $user_data->email = $request->email;
+        // $user_data->display_picture_link = $new_path;
+        // $user_data->password = bcrypt($request->password);
+        // $user_data->save();
+
+        User::where('id', '=', $user_checked)->update([
+            "first_name" => $request->first_name,
+            "last_name" => $request->last_name,
+            "email" => $request->email,
+            "display_picture_link" => $new_path,
+            "password" => bcrypt($request->password)
+        ]);
+
+        return redirect('/saved');
+
     }
 }

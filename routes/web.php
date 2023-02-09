@@ -36,6 +36,9 @@ Route::middleware(['auth'])->group(function () {
     # isi yang bisa diakses admin & user (home, detail, profile, logout)
     Route::get("/home", [ItemController::class, "loadItemPage"])
         ->name("item_home_page");
+    Route::get("/profile", [UserController::class, "loadProfile"])
+        ->name("profile");
+    Route::patch('/edit-profile', [UserController::class, "editProfile"]);
 
     Route::middleware(['AdminOnly'])->group(function () {
         # isi buat yang bisa diakses admin aja (account maintenance)
