@@ -43,6 +43,10 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get("/logout", [UserController::class, "logOut"])
     ->name("logout");
+
+    Route::get("/item/{itemId}", [ItemController::class, "viewItemById"])
+    ->name("item_detail_page");
+
     Route::post("/add-to-cart/{itemId}", [OrderController::class, "addItemToCart"])
     ->name("add_item_to_cart");
     Route::delete("/remove-cart/{itemId}", [OrderController::class, "removeItemFromCart"])
