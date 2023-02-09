@@ -37,6 +37,11 @@ Route::middleware(['auth'])->group(function () {
     # isi yang bisa diakses admin & user (home, detail, profile, logout)
     Route::get("/home", [ItemController::class, "loadItemPage"])
         ->name("item_home_page");
+    Route::get("/profile", [UserController::class, "loadProfile"])
+        ->name("profile");
+    Route::patch('/edit-profile', [UserController::class, "editProfile"]);
+    Route::get("/saved", [UserController::class, "loadSavedPage"])
+        ->name("saved");
 
     Route::get("/item/{itemId}", [ItemController::class, "viewItemById"])
         ->name("item_detail_page");
